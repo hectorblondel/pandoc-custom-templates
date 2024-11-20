@@ -1,0 +1,659 @@
+% !TEX encoding = UTF-8 Unicode
+% -*- coding: UTF-8; -*-
+% vim: set fenc=utf-8
+
+
+
+\newcommand{\imgpath}{$template-location$}
+
+
+%-------------------- passoptions.latex() ----------------------------------
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+$if(colorlinks)$
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+$endif$
+$if(CJKmainfont)$
+\PassOptionsToPackage{space}{xeCJK}
+$endif$
+
+
+
+
+
+\documentclass[a4paper,12pt,french]{article}
+
+
+
+%------------------------------------------ CHARGEMENT DES EXTENSIONS ------------------------------------------%
+
+% -------------  Langue utilisée ------------- 
+\usepackage[utf8]{inputenc} % Reconnaissance des lettre du clavier
+\usepackage[T1]{fontenc}     
+\usepackage[frenchb]{babel} 
+
+% -------------  Mise en page ------------- 
+\usepackage[a4paper]{geometry}	% Mise en page acceptable
+\usepackage[final]{microtype} % Pour améliorer la qualité du texte avec la microtypo
+\usepackage{hyperref}
+ \hypersetup{pdftoolbar=false,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdfnewwindow=true,      % links in new PDF window
+    pdfcreator={Paquet LaTeX Centrale Lyon (B. Laville) - 2019}}
+\newcommand{\reff}[1]{\textbf{\textcolor{CentraleRed}{\textsc{\ref{#1}}}}}  % Pour réaliser des citations potables
+
+% -------------  Mise en page 2 ------------- 
+\usepackage{graphicx}	% pour importer des images
+\usepackage{booktabs}	% pour introduire des tableaux
+\usepackage[toc,page]{appendix}
+%\usepackage[Bjornstrup]{fncychap} % si on fait un report ou book
+\usepackage{lmodern} 
+\usepackage{fancyhdr}	% des titres fouquéscentrale
+\usepackage{lipsum}		% mettre du texte lipsum en maquette
+\usepackage{framed}		% des cadres pougnés
+\usepackage{bm} % Du texte en gras bien mis
+
+% ------------- En-têtes ------------- 
+\renewcommand{\baselinestretch}{1.05}
+\setlength{\headheight}{27.06pt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\nouppercase{\thepage}}
+\lhead{\nouppercase{\rightmark}}
+
+% ------------- Images, figures et tables ------------- 
+\usepackage{epstopdf} 	% utiliser .eps
+\usepackage[pages=some]{background}	% pour mettre un fond, pages=some permet de choisir els pages concernées
+\usepackage{epsfig}	% eps to pdf converter
+\usepackage{float}	% pour avoir des tableaux qui restent dans leurs sections
+\usepackage{graphicx}	% mporter image
+\usepackage{hyperref}	% importer hypertexte
+\usepackage{array}		% importer tableau
+\usepackage{colortbl}		% couleurs dans le tableau
+\usepackage{array} % Pour des tableaux bien formaté
+\usepackage{multirow} % Fusion des lignes dans les tableaux
+\usepackage[footnote]{acronym} % Des acronymes accessibles et définissables
+
+% ------------- Des sections et des sous-titres ------------- 
+\usepackage{titlesec}
+\usepackage{sectsty}
+\usepackage{caption}
+\usepackage{subcaption}
+
+%% Draft %%
+%\usepackage{draftwatermark}
+%\SetWatermarkScale{3}
+
+% ------------- Du dessin et des couleurs ------------- 
+\usepackage{xcolor}		% changer la couleur
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}		% pour dessiner
+\usepackage{schemabloc}	% des schémas-blocs
+\usepackage[siunitx, american, smartlabels, cute inductors]{circuitikz}		% pour dessiner des circuits électroniques
+\usetikzlibrary{babel}		% pour éviter des conflits entre paquets tikz et babel
+
+
+% ------------- Des maths ------------- 
+\usepackage{listings}		% Importer du code informatique et le travailler
+%\usepackage{fouriernc}
+\usepackage{amsmath, amssymb, amsfonts, amsthm, mathtools} % mathtools for: Aboxed (put box on last equation in align envirenment)
+\usepackage{mathpazo} % La police utilisée dans tout le document
+\usepackage{siunitx}		% Des unités bien écrites pour la physique
+\sisetup{locale = FR}		% Pour avoir les bonnes conventions typo
+
+% ------------- Une biliographie ------------- 
+\bibliographystyle{plain-fr}
+
+\DeclareOption{option}{...}
+\DeclareOption*{...}
+\ProcessOptions
+
+
+%------------------------------------------DÉFINITIONS DES COULEURS------------------------------------------%
+
+\definecolor{CentraleRed}{rgb}{0.558,0.09, 0.18}
+\definecolor{CentraleGray}{rgb}{0.67,0.67, 0.67}
+\definecolor{CentraleBlue}{RGB}{0,67,89}
+\definecolor{CentraleGrayEq}{RGB}{66,66,66}
+\definecolor{matlabGreen}{RGB}{28,172,0} % pour le listing des codes
+\definecolor{matlabLilas}{RGB}{170,55,241}
+
+
+%------------------------------------------SECTIONS, FIGURES ET TABLEAUX------------------------------------------%
+
+\chapterfont{\color{CentraleRed}} % sets colour of chapters
+\sectionfont{\color{CentraleRed}\sffamily}  % sets colour of sections
+\subsectionfont{\color{CentraleGrayEq}\sffamily\itshape}  % sets colour of sections
+\DeclareCaptionFont{CaptionCentrale}{\color{CentraleRed}}
+\captionsetup[table]{labelfont={CaptionCentrale,bf}}
+\captionsetup[figure]{labelfont={CaptionCentrale,bf}}
+\captionsetup[subfigure]{labelfont=bf,textfont=sf}
+
+
+%\usepackage{centrale}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{float, listings}
+
+\hypersetup{
+    pdftitle={},
+    pdfauthor={Auteur à insérer},
+    pdfsubject={Sujet à insérer},
+    pdfproducer={Conversion PDF à insérer},
+    pdfkeywords={Quelques mots-clés à insérer} %
+}
+
+\DeclareGraphicsRule{.ai}{pdf}{.ai}{} % pour insérer des documents .ai
+\graphicspath{ {./img/} {./eps/}} % pour ne pas avoir à ajouter eps/ton-image.jpg
+
+\usepackage{tikz}
+\usetikzlibrary{ decorations.markings}
+
+% pimp my latex
+\renewcommand\thesubsection{\arabic{section}.\arabic{subsection}}
+\renewcommand\thesubsubsection{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+
+\makeatletter
+ 
+\newskip\@bigflushglue \@bigflushglue = -100pt plus 1fil
+ 
+\def\bigcenter{\trivlist \bigcentering\item\relax}
+\def\bigcentering{\let\\\@centercr\rightskip\@bigflushglue%
+\leftskip\@bigflushglue
+\parindent\z@\parfillskip\z@skip}
+\def\endbigcenter{\endtrivlist}
+
+
+
+% ------------- fonts.latex() ------------------------
+
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+$if(mathspec)$
+  \ifXeTeX
+    \usepackage{mathspec} % this also loads fontspec
+  \else
+    \usepackage{unicode-math} % this also loads fontspec
+  \fi
+$else$
+  \usepackage{unicode-math} % this also loads fontspec
+$endif$
+  \defaultfontfeatures{Scale=MatchLowercase}$-- must come before Beamer theme
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+$if(fontfamily)$
+$else$
+$-- Set default font before Beamer theme so the theme can override it
+\usepackage{lmodern}
+$endif$
+$-- User font settings (must come after default font and Beamer theme)
+$if(fontfamily)$
+\usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
+$endif$
+\ifPDFTeX\else
+  % xetex/luatex font selection
+$if(mainfont)$
+  $if(mainfontfallback)$
+    \ifLuaTeX
+      \usepackage{luaotfload}
+      \directlua{luaotfload.add_fallback("mainfontfallback",{
+        $for(mainfontfallback)$"$mainfontfallback$"$sep$,$endfor$
+      })}
+    \fi
+  $endif$
+  \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$$if(mainfontfallback)$,RawFeature={fallback=mainfontfallback}$endif$]{$mainfont$}
+$endif$
+$if(sansfont)$
+  $if(sansfontfallback)$
+    \ifLuaTeX
+      \usepackage{luaotfload}
+      \directlua{luaotfload.add_fallback("sansfontfallback",{
+        $for(sansfontfallback)$"$sansfontfallback$"$sep$,$endfor$
+      })}
+    \fi
+  $endif$
+  \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$$if(sansfontfallback)$,RawFeature={fallback=sansfontfallback}$endif$]{$sansfont$}
+$endif$
+$if(monofont)$
+  $if(monofontfallback)$
+    \ifLuaTeX
+      \usepackage{luaotfload}
+      \directlua{luaotfload.add_fallback("monofontfallback",{
+        $for(monofontfallback)$"$monofontfallback$"$sep$,$endfor$
+      })}
+    \fi
+  $endif$
+  \setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$$if(monofontfallback)$,RawFeature={fallback=monofontfallback}$endif$]{$monofont$}
+$endif$
+$for(fontfamilies)$
+  \newfontfamily{$fontfamilies.name$}[$for(fontfamilies.options)$$fontfamilies.options$$sep$,$endfor$]{$fontfamilies.font$}
+$endfor$
+$if(mathfont)$
+$if(mathspec)$
+  \ifXeTeX
+    \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+  \else
+    \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+  \fi
+$else$
+  \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+$endif$
+$endif$
+$if(CJKmainfont)$
+  \ifXeTeX
+    \usepackage{xeCJK}
+    \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
+    $if(CJKsansfont)$
+      \setCJKsansfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKsansfont$}
+    $endif$
+    $if(CJKmonofont)$
+      \setCJKmonofont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmonofont$}
+    $endif$
+  \fi
+$endif$
+$if(luatexjapresetoptions)$
+  \ifLuaTeX
+    \usepackage[$for(luatexjapresetoptions)$$luatexjapresetoptions$$sep$,$endfor$]{luatexja-preset}
+  \fi
+$endif$
+$if(CJKmainfont)$
+  \ifLuaTeX
+    \usepackage[$for(luatexjafontspecoptions)$$luatexjafontspecoptions$$sep$,$endfor$]{luatexja-fontspec}
+    \setmainjfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
+  \fi
+$endif$
+\fi
+$if(zero-width-non-joiner)$
+%% Support for zero-width non-joiner characters.
+\makeatletter
+\def\zerowidthnonjoiner{%
+  % Prevent ligatures and adjust kerning, but still support hyphenating.
+  \texorpdfstring{%
+    \TextOrMath{\nobreak\discretionary{-}{}{\kern.03em}%
+      \ifvmode\else\nobreak\hskip\z@skip\fi}{}%
+  }{}%
+}
+\makeatother
+\ifPDFTeX
+  \DeclareUnicodeCharacter{200C}{\zerowidthnonjoiner}
+\else
+  \catcode`^^^^200c=\active
+  \protected\def ^^^^200c{\zerowidthnonjoiner}
+\fi
+%% End of ZWNJ support
+$endif$
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+
+
+
+%---------------- common.latex() ---------------------------------
+
+$if(linestretch)$
+\usepackage{setspace}
+$endif$
+$--
+$-- paragraph formatting
+$--
+$if(indent)$
+$else$
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+$endif$
+$if(beamer)$
+$else$
+$if(block-headings)$
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+$endif$
+$endif$
+$--
+$-- verbatim in notes
+$--
+$if(verbatim-in-note)$
+\usepackage{fancyvrb}
+$endif$
+$-- highlighting
+$if(listings)$
+\usepackage{listings}
+\newcommand{\passthrough}[1]{#1}
+\lstset{defaultdialect=[5.3]Lua}
+\lstset{defaultdialect=[x86masm]Assembler}
+$endif$
+$if(lhs)$
+\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+$endif$
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+$--
+$-- tables
+$--
+$if(tables)$
+\usepackage{longtable,booktabs,array}
+$if(multirow)$
+\usepackage{multirow}
+$endif$
+\usepackage{calc} % for calculating minipage widths
+$if(beamer)$
+\usepackage{caption}
+% Make caption package work with longtable
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+$else$
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+$endif$
+$endif$
+$--
+$-- graphics
+$--
+$if(graphics)$
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+$endif$
+$if(svg)$
+\usepackage{svg}
+$endif$
+$--
+$-- strikeout/underline
+$--
+$if(strikeout)$
+\ifLuaTeX
+  \usepackage{luacolor}
+  \usepackage[soul]{lua-ul}
+\else
+  \usepackage{soul}
+$if(beamer)$
+  \makeatletter
+  \let\HL\hl
+  \renewcommand\hl{% fix for beamer highlighting
+    \let\set@color\beamerorig@set@color
+    \let\reset@color\beamerorig@reset@color
+    \HL}
+  \makeatother
+$endif$
+$if(CJKmainfont)$
+  \ifXeTeX
+    % soul's \st doesn't work for CJK:
+    \usepackage{xeCJKfntef}
+    \renewcommand{\st}[1]{\sout{#1}}
+  \fi
+$endif$
+\fi
+$endif$
+$--
+$-- CSL citations
+$--
+$if(csl-refs)$
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+$endif$
+$--
+$-- Babel language support
+$--
+$if(lang)$
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+$if(babel-lang)$
+\babelprovide[main,import]{$babel-lang$}
+$if(mainfont)$
+\ifPDFTeX
+\else
+\babelfont{rm}[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$$if(mainfontfallback)$,RawFeature={fallback=mainfontfallback}$endif$]{$mainfont$}
+\fi
+$endif$
+$endif$
+$for(babel-otherlangs)$
+\babelprovide[import]{$babel-otherlangs$}
+$endfor$
+$for(babelfonts/pairs)$
+\babelfont[$babelfonts.key$]{rm}{$babelfonts.value$}
+$endfor$
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+$if(selnolig-langs)$
+\ifLuaTeX
+  \usepackage[$for(selnolig-langs)$$it$$sep$,$endfor$]{selnolig} % disable illegal ligatures
+\fi
+$endif$
+$endif$
+$--
+$-- pagestyle
+$--
+$if(pagestyle)$
+\pagestyle{$pagestyle$}
+$endif$
+$--
+$-- prevent overfull lines
+$--
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+$--
+$-- tight lists
+$--
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+$--
+$-- subfigure support
+$--
+$if(subfigure)$
+\usepackage{subcaption}
+$endif$
+$--
+$-- text direction support for pdftex
+$--
+$if(dir)$
+\ifPDFTeX
+  \TeXXeTstate=1
+  \newcommand{\RL}[1]{\beginR #1\endR}
+  \newcommand{\LR}[1]{\beginL #1\endL}
+  \newenvironment{RTL}{\beginR}{\endR}
+  \newenvironment{LTR}{\beginL}{\endL}
+\fi
+$endif$
+$--
+$-- bibliography support support for natbib and biblatex
+$--
+$if(natbib)$
+\usepackage[$natbiboptions$]{natbib}
+\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+$endif$
+$if(biblatex)$
+\usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
+$for(bibliography)$
+\addbibresource{$bibliography$}
+$endfor$
+$endif$
+$if(nocite-ids)$
+\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+$--
+$-- csquotes
+$--
+$if(csquotes)$
+\usepackage{csquotes}
+$endif$
+
+
+
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+% -------------- after-header-includes.latex() --------------------------
+
+
+% --------------- hypersetup.latex() -------------------------------
+
+
+
+% ------------- Packages spéciaux, nécessaires pour ce rapport, à insérer ici ------------- 
+
+
+
+
+\begin{document}
+
+% --------------------------------------------------------------
+%                       Page de garde
+% --------------------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\includegraphics[width=1\textwidth]{\imgpath/Logo-CS-UPS.png}\\[1cm]
+
+{\large $class$}\\[0.5cm]
+
+{\large $document_type$}\\[0.5cm]
+
+% Title
+\rule{\linewidth}{0.5mm} \\[0.4cm]
+{ \huge \bfseries $title$ \\[0.4cm] }
+\rule{\linewidth}{0.5mm} \\[1.5cm]
+
+% Author and supervisor
+\noindent
+\begin{minipage}{0.4\textwidth}
+  \begin{flushleft} \large
+    \emph{Authors :}\\
+    M. $author$\\
+    $if(author2)$
+    M. $author2$\\
+    $endif$
+  \end{flushleft}
+\end{minipage}%
+
+
+\vfill
+
+% Bottom of the page
+{\large Version du\\ \today}
+
+\end{center}
+\end{titlepage}
+
+% --------------------------------------------------------------
+%                    Table des matières 
+% --------------------------------------------------------------
+
+$if(table_of_content)$
+  \thispagestyle{empty}
+  \tableofcontents
+  \newpage
+$endif$
+
+% --------------------------------------------------------------
+%                         Corps
+% --------------------------------------------------------------
+
+$body$
+
+
+% --------------------------------------------------------------
+%                         Partie 1
+% --------------------------------------------------------------
+
+
+\end{document}
