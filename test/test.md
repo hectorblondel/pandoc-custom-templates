@@ -22,15 +22,23 @@ lemma
 
 This is content
 
-`small text é`
+`small_text test é`
 
 Some content
 
-```python
-#This python is code
+```Python
+#This is python code
 import random
 print(random.random())
+print(4)
+print("x")
+
+for i in range(5):
+    i = (i+2) %3
 ```
 
 
 ![alt text](image.png)
+
+
+This is text

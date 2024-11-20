@@ -19,4 +19,4 @@ sed 's|\$template-location\$|'$template_folder'|g' custom_templates/$1/$1.latex 
 
 cp custom_templates/$1/*.png "$template_folder" 2>/dev/null
 cp custom_templates/$1/*.jpg "$template_folder" 2>/dev/null
-cp custom_templates/$1/*.jpeg "$template_folder" 2>/dev/nul
+cp custom_templates/$1/*.jpeg "$template_folder" 2>/dev/null
