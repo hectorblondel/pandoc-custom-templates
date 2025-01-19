@@ -37,6 +37,6 @@ title=$(echo "$title_raw" | tr '_' ' ')
 # echo "$header" | cat - "$1" > "$temp_file" && mv "$temp_file" "$1"
 
 #echo "L'en-tête a été ajouté avec succès au fichier $1"
-echo "executing command pandoc $filename -o $resource_path/$title_raw.pdf --from markdown --template $1 --listings  --resource-path $resource_path"
+echo "executing command pandoc $filename -o $resource_path/$title_raw.pdf --from markdown --template $1 --listings --resource-path $resource_path"
 
 pandoc $filename -o $target_path/$title_raw.pdf --from markdown --template $1 --listings --resource-path $resource_path

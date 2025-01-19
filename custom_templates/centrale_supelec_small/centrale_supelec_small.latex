@@ -9,6 +9,7 @@ $else$
 \newcommand{\imgpath}{$template-location$}
 $endif$
 
+
 %-------------------- passoptions.latex() ----------------------------------
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
@@ -24,8 +25,7 @@ $endif$
 
 
 
-\documentclass[a4paper,12pt,french]{article}
-
+\documentclass[a4paper, left=1cm, right=1cm, top=1cm, bottom=1cm,french]{article}
 
 
 %------------------------------------------ CHARGEMENT DES EXTENSIONS ------------------------------------------%
@@ -36,6 +36,7 @@ $endif$
 
 % -------------  Mise en page ------------- 
 \usepackage[a4paper]{geometry}	% Mise en page acceptable
+\geometry{hmargin=2.5cm,vmargin=1.5cm}
 \usepackage[final]{microtype} % Pour améliorer la qualité du texte avec la microtypo
 \usepackage{hyperref}
  \hypersetup{pdftoolbar=false,        % show Acrobat’s toolbar?
@@ -59,12 +60,7 @@ $endif$
 
 % ------------- En-têtes ------------- 
 \renewcommand{\baselinestretch}{1.05}
-\setlength{\headheight}{27.06pt}
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\rhead{\nouppercase{\thepage}}
-\lhead{\nouppercase{\rightmark}}
+\setlength{\headheight}{10.06pt}
 
 % ------------- Images, figures et tables ------------- 
 \usepackage{epstopdf} 	% utiliser .eps
@@ -682,50 +678,30 @@ $endfor$
 %                       Page de garde
 % --------------------------------------------------------------
 
-\begin{titlepage}
+
+
 \begin{center}
 
-\includegraphics[width=1\textwidth]{\imgpath/Logo-CS-UPS.png}\\[1cm]
 
-{\large $class$}\\[0.5cm]
 
-{\large $document_type$}\\[0.5cm]
 
 % Title
-\rule{\linewidth}{0.5mm} \\[0.4cm]
+\rule{\linewidth}{0.5mm} \\[0.cm]
+\includegraphics[width=0.6\textwidth]{\imgpath/Logo-CS-UPS.png}\\[0.1cm]
 { \huge \bfseries $title$ \\[0.4cm] }
-\rule{\linewidth}{0.5mm} \\[1.5cm]
-
-% Author and supervisor
-\noindent
-\begin{minipage}{0.4\textwidth}
-  \begin{flushleft} \large
-    \emph{Authors :}\\
-    M. $author$\\
-    $if(author2)$
-    M. $author2$\\
-    $endif$
-  \end{flushleft}
-\end{minipage}%
+\rule{\linewidth}{0.5mm} \\[0.4cm]
 
 
-\vfill
 
-% Bottom of the page
-{\large Version du\\ \today}
+$author$ 
+$if(author2)$
+, $author2$
+$endif$
+\\[0.5cm]
 
 \end{center}
-\end{titlepage}
 
-% --------------------------------------------------------------
-%                    Table des matières 
-% --------------------------------------------------------------
 
-$if(table_of_content)$
-  \thispagestyle{empty}
-  \tableofcontents
-  \newpage
-$endif$
 
 % --------------------------------------------------------------
 %                         Corps
