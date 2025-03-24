@@ -3,29 +3,19 @@
 % vim: set fenc=utf-8
 
 
-$if(imgpath)$
-\newcommand{\imgpath}{$imgpath$}
-$else$
-\newcommand{\imgpath}{$template-location$}
-$endif$
+\newcommand{\imgpath}{.}
+
 
 %-------------------- passoptions.latex() ----------------------------------
 % Options for packages loaded elsewhere
-\PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
+\PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
-$if(colorlinks)$
-\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
-$endif$
-$if(CJKmainfont)$
-\PassOptionsToPackage{space}{xeCJK}
-$endif$
 
 
 
 
 
-\documentclass[a4paper,12pt,french]{article}
-
+\documentclass[a4paper, left=1cm, right=1cm, top=1cm, bottom=1cm,french]{article}
 
 
 %------------------------------------------ CHARGEMENT DES EXTENSIONS ------------------------------------------%
@@ -36,6 +26,7 @@ $endif$
 
 % -------------  Mise en page ------------- 
 \usepackage[a4paper]{geometry}	% Mise en page acceptable
+\geometry{hmargin=2.5cm,vmargin=1.5cm}
 \usepackage[final]{microtype} % Pour améliorer la qualité du texte avec la microtypo
 \usepackage{hyperref}
  \hypersetup{pdftoolbar=false,        % show Acrobat’s toolbar?
@@ -52,17 +43,13 @@ $endif$
 %\usepackage[Bjornstrup]{fncychap} % si on fait un report ou book
 \usepackage{lmodern} 
 \usepackage{fancyhdr}	% des titres fouquéscentrale
+\usepackage{lipsum}		% mettre du texte lipsum en maquette
 \usepackage{framed}		% des cadres pougnés
 \usepackage{bm} % Du texte en gras bien mis
 
 % ------------- En-têtes ------------- 
 \renewcommand{\baselinestretch}{1.05}
-\setlength{\headheight}{27.06pt}
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\rhead{\nouppercase{\thepage}}
-\lhead{\nouppercase{\rightmark}}
+\setlength{\headheight}{10.06pt}
 
 % ------------- Images, figures et tables ------------- 
 \usepackage{epstopdf} 	% utiliser .eps
@@ -76,6 +63,10 @@ $endif$
 \usepackage{array} % Pour des tableaux bien formaté
 \usepackage{multirow} % Fusion des lignes dans les tableaux
 \usepackage[footnote]{acronym} % Des acronymes accessibles et définissables
+
+% Redéfinition de \includegraphics pour fixer une taille max
+\let\oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{\oldincludegraphics[width=0.5\textwidth,#1]{#2}}
 
 % ------------- Des sections et des sous-titres ------------- 
 \usepackage{titlesec}
@@ -134,9 +125,12 @@ $endif$
 \captionsetup[subfigure]{labelfont=bf,textfont=sf}
 
 
+%\usepackage{centrale}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
 \usepackage{wrapfig}
 \usepackage{float, listings}
 
@@ -167,127 +161,22 @@ $endif$
 
 \usepackage{iftex}
 \ifPDFTeX
-  \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
+  \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-$if(mathspec)$
-  \ifXeTeX
-    \usepackage{mathspec} % this also loads fontspec
-  \else
-    \usepackage{unicode-math} % this also loads fontspec
-  \fi
-$else$
   \usepackage{unicode-math} % this also loads fontspec
-$endif$
-  \defaultfontfeatures{Scale=MatchLowercase}$-- must come before Beamer theme
+  \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-$if(fontfamily)$
-$else$
-$-- Set default font before Beamer theme so the theme can override it
 \usepackage{lmodern}
-$endif$
-$-- User font settings (must come after default font and Beamer theme)
-$if(fontfamily)$
-\usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
-$endif$
 \ifPDFTeX\else
   % xetex/luatex font selection
-$if(mainfont)$
-  $if(mainfontfallback)$
-    \ifLuaTeX
-      \usepackage{luaotfload}
-      \directlua{luaotfload.add_fallback("mainfontfallback",{
-        $for(mainfontfallback)$"$mainfontfallback$"$sep$,$endfor$
-      })}
-    \fi
-  $endif$
-  \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$$if(mainfontfallback)$,RawFeature={fallback=mainfontfallback}$endif$]{$mainfont$}
-$endif$
-$if(sansfont)$
-  $if(sansfontfallback)$
-    \ifLuaTeX
-      \usepackage{luaotfload}
-      \directlua{luaotfload.add_fallback("sansfontfallback",{
-        $for(sansfontfallback)$"$sansfontfallback$"$sep$,$endfor$
-      })}
-    \fi
-  $endif$
-  \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$$if(sansfontfallback)$,RawFeature={fallback=sansfontfallback}$endif$]{$sansfont$}
-$endif$
-$if(monofont)$
-  $if(monofontfallback)$
-    \ifLuaTeX
-      \usepackage{luaotfload}
-      \directlua{luaotfload.add_fallback("monofontfallback",{
-        $for(monofontfallback)$"$monofontfallback$"$sep$,$endfor$
-      })}
-    \fi
-  $endif$
-  \setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$$if(monofontfallback)$,RawFeature={fallback=monofontfallback}$endif$]{$monofont$}
-$endif$
-$for(fontfamilies)$
-  \newfontfamily{$fontfamilies.name$}[$for(fontfamilies.options)$$fontfamilies.options$$sep$,$endfor$]{$fontfamilies.font$}
-$endfor$
-$if(mathfont)$
-$if(mathspec)$
-  \ifXeTeX
-    \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
-  \else
-    \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
-  \fi
-$else$
-  \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
-$endif$
-$endif$
-$if(CJKmainfont)$
-  \ifXeTeX
-    \usepackage{xeCJK}
-    \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
-    $if(CJKsansfont)$
-      \setCJKsansfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKsansfont$}
-    $endif$
-    $if(CJKmonofont)$
-      \setCJKmonofont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmonofont$}
-    $endif$
-  \fi
-$endif$
-$if(luatexjapresetoptions)$
-  \ifLuaTeX
-    \usepackage[$for(luatexjapresetoptions)$$luatexjapresetoptions$$sep$,$endfor$]{luatexja-preset}
-  \fi
-$endif$
-$if(CJKmainfont)$
-  \ifLuaTeX
-    \usepackage[$for(luatexjafontspecoptions)$$luatexjafontspecoptions$$sep$,$endfor$]{luatexja-fontspec}
-    \setmainjfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
-  \fi
-$endif$
 \fi
-$if(zero-width-non-joiner)$
-%% Support for zero-width non-joiner characters.
-\makeatletter
-\def\zerowidthnonjoiner{%
-  % Prevent ligatures and adjust kerning, but still support hyphenating.
-  \texorpdfstring{%
-    \TextOrMath{\nobreak\discretionary{-}{}{\kern.03em}%
-      \ifvmode\else\nobreak\hskip\z@skip\fi}{}%
-  }{}%
-}
-\makeatother
-\ifPDFTeX
-  \DeclareUnicodeCharacter{200C}{\zerowidthnonjoiner}
-\else
-  \catcode`^^^^200c=\active
-  \protected\def ^^^^200c{\zerowidthnonjoiner}
-\fi
-%% End of ZWNJ support
-$endif$
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \IfFileExists{microtype.sty}{% use microtype if available
-  \usepackage[$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$]{microtype}
+  \usepackage[]{microtype}
   \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 
@@ -296,14 +185,6 @@ $endif$
 
 %---------------- common.latex() ---------------------------------
 
-$if(linestretch)$
-\usepackage{setspace}
-$endif$
-$--
-$-- paragraph formatting
-$--
-$if(indent)$
-$else$
 \makeatletter
 \@ifundefined{KOMAClassName}{% if non-KOMA class
   \IfFileExists{parskip.sty}{%
@@ -314,54 +195,10 @@ $else$
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
-$endif$
-$if(beamer)$
-$else$
-$if(block-headings)$
-% Make \paragraph and \subparagraph free-standing
-\makeatletter
-\ifx\paragraph\undefined\else
-  \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}{
-    \@ifstar
-      \xxxParagraphStar
-      \xxxParagraphNoStar
-  }
-  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
-  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-  \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}{
-    \@ifstar
-      \xxxSubParagraphStar
-      \xxxSubParagraphNoStar
-  }
-  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
-  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-\makeatother
-$endif$
-$endif$
-$--
-$-- verbatim in notes
-$--
-$if(verbatim-in-note)$
-\usepackage{fancyvrb}
-$endif$
-$-- highlighting
-$if(listings)$
 %\usepackage{listings}
 \usepackage{listingsutf8}
 \newcommand{\passthrough}[1]{#1}
 \lstset{inputencoding=latin1}
-$endif$
-$if(lhs)$
-\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
-$endif$
-$if(highlighting-macros)$
-$highlighting-macros$
-$endif$
 
 
 
@@ -376,7 +213,6 @@ $endif$
 %
 %
 
-$if(listings)$
 
 %
 % general listing colors
@@ -396,18 +232,13 @@ $if(listings)$
 
 \lstdefinestyle{eisvogel_listing_style}{
   language         = java,
-$if(listings-disable-line-numbers)$
-  xleftmargin      = 0.6em,
-  framexleftmargin = 0.4em,
-$else$
   numbers          = left,
   xleftmargin      = 2.7em,
   framexleftmargin = 2.5em,
-$endif$
   backgroundcolor  = \color{listing-background},
   basicstyle       = \color{listing-text-color}\linespread{1.0}%
                       \lst@ifdisplaystyle%
-                      $if(code-block-font-size)$$code-block-font-size$$else$\small$endif$%
+                      \small%
                       \fi\ttfamily{},
   breaklines       = true,
   frame            = single,
@@ -447,40 +278,10 @@ $endif$
 }
 \lstset{style=eisvogel_listing_style}
 
-$endif$
 
 
-$--
-$-- tables
-$--
-$if(tables)$
-\usepackage{longtable,booktabs,array}
-$if(multirow)$
-\usepackage{multirow}
-$endif$
-\usepackage{calc} % for calculating minipage widths
-$if(beamer)$
-\usepackage{caption}
-% Make caption package work with longtable
-\makeatletter
-\def\fnum@table{\tablename~\thetable}
-\makeatother
-$else$
-% Correct order of tables after \paragraph or \subparagraph
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
-$endif$
-$endif$
-$--
-$-- graphics
-$--
-$if(graphics)$
-%\usepackage{graphicx}
+
+\usepackage{graphicx}
 \makeatletter
 \newsavebox\pandoc@box
 \newcommand*\pandocbounded[1]{% scales image to fit in text height/width
@@ -495,170 +296,14 @@ $if(graphics)$
 % Set default figure placement to htbp
 \def\fps@figure{htbp}
 \makeatother
-$endif$
-$if(svg)$
-\usepackage{svg}
-$endif$
-$--
-$-- strikeout/underline
-$--
-$if(strikeout)$
-\ifLuaTeX
-  \usepackage{luacolor}
-  \usepackage[soul]{lua-ul}
-\else
-  \usepackage{soul}
-$if(beamer)$
-  \makeatletter
-  \let\HL\hl
-  \renewcommand\hl{% fix for beamer highlighting
-    \let\set@color\beamerorig@set@color
-    \let\reset@color\beamerorig@reset@color
-    \HL}
-  \makeatother
-$endif$
-$if(CJKmainfont)$
-  \ifXeTeX
-    % soul's \st doesn't work for CJK:
-    \usepackage{xeCJKfntef}
-    \renewcommand{\st}[1]{\sout{#1}}
-  \fi
-$endif$
-\fi
-$endif$
-$--
-$-- CSL citations
-$--
-$if(csl-refs)$
-% definitions for citeproc citations
-\NewDocumentCommand\citeproctext{}{}
-\NewDocumentCommand\citeproc{mm}{%
-  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
-\makeatletter
- % allow citations to break across lines
- \let\@cite@ofmt\@firstofone
- % avoid brackets around text for \cite:
- \def\@biblabel#1{}
- \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
-\makeatother
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
- {\begin{list}{}{%
-  \setlength{\itemindent}{0pt}
-  \setlength{\leftmargin}{0pt}
-  \setlength{\parsep}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1
-   \setlength{\leftmargin}{\cslhangindent}
-   \setlength{\itemindent}{-1\cslhangindent}
-  \fi
-  % set entry spacing
-  \setlength{\itemsep}{#2\baselineskip}}}
- {\end{list}}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-$endif$
-$--
-$-- Babel language support
-$--
-$if(lang)$
-\ifLuaTeX
-\usepackage[bidi=basic]{babel}
-\else
-\usepackage[bidi=default]{babel}
-\fi
-$if(babel-lang)$
-\babelprovide[main,import]{$babel-lang$}
-$if(mainfont)$
-\ifPDFTeX
-\else
-\babelfont{rm}[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$$if(mainfontfallback)$,RawFeature={fallback=mainfontfallback}$endif$]{$mainfont$}
-\fi
-$endif$
-$endif$
-$for(babel-otherlangs)$
-\babelprovide[import]{$babel-otherlangs$}
-$endfor$
-$for(babelfonts/pairs)$
-\babelfont[$babelfonts.key$]{rm}{$babelfonts.value$}
-$endfor$
-% get rid of language-specific shorthands (see #6817):
-\let\LanguageShortHands\languageshorthands
-\def\languageshorthands#1{}
-$if(selnolig-langs)$
-\ifLuaTeX
-  \usepackage[$for(selnolig-langs)$$it$$sep$,$endfor$]{selnolig} % disable illegal ligatures
-\fi
-$endif$
-$endif$
-$--
-$-- pagestyle
-$--
-$if(pagestyle)$
-\pagestyle{$pagestyle$}
-$endif$
-$--
-$-- prevent overfull lines
-$--
+
 \setlength{\emergencystretch}{3em} % prevent overfull lines
-$--
-$-- tight lists
-$--
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-$--
-$-- subfigure support
-$--
-$if(subfigure)$
-\usepackage{subcaption}
-$endif$
-$--
-$-- text direction support for pdftex
-$--
-$if(dir)$
-\ifPDFTeX
-  \TeXXeTstate=1
-  \newcommand{\RL}[1]{\beginR #1\endR}
-  \newcommand{\LR}[1]{\beginL #1\endL}
-  \newenvironment{RTL}{\beginR}{\endR}
-  \newenvironment{LTR}{\beginL}{\endL}
-\fi
-$endif$
-$--
-$-- bibliography support support for natbib and biblatex
-$--
-$if(natbib)$
-\usepackage[$natbiboptions$]{natbib}
-\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
-$endif$
-$if(biblatex)$
-\usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
-$for(bibliography)$
-\addbibresource{$bibliography$}
-$endfor$
-$endif$
-$if(nocite-ids)$
-\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
-$endif$
-$--
-$-- csquotes
-$--
-$if(csquotes)$
-\usepackage{csquotes}
-$endif$
 
 
 
 
-$for(header-includes)$
-$header-includes$
-$endfor$
 
 % -------------- after-header-includes.latex() --------------------------
 
@@ -678,56 +323,115 @@ $endfor$
 %                       Page de garde
 % --------------------------------------------------------------
 
-\begin{titlepage}
+
+
 \begin{center}
 
-\includegraphics[width=1\textwidth]{\imgpath/Logo-CS-UPS.png}\\[1cm]
 
-{\large $class$}\\[0.5cm]
 
-{\large $document_type$}\\[0.5cm]
 
 % Title
+\rule{\linewidth}{0.5mm} \\[0.cm]
+\includegraphics[width=0.6\textwidth]{\imgpath/Logo-CS-UPS.png}\\[0.1cm]
+{ \huge \bfseries TD compressive sensing \\[0.4cm] }
 \rule{\linewidth}{0.5mm} \\[0.4cm]
-{ \huge \bfseries $title$ \\[0.4cm] }
-\rule{\linewidth}{0.5mm} \\[1.5cm]
-
-% Author and supervisor
-\noindent
-\begin{minipage}{0.4\textwidth}
-  \begin{flushleft} \large
-    \emph{Authors :}\\
-    M. $author$\\
-    $if(author2)$
-    M. $author2$\\
-    $endif$
-  \end{flushleft}
-\end{minipage}%
 
 
-\vfill
 
-% Bottom of the page
-{\large Version du\\ \today}
+Hector Blondel 
+, Aurélian Pinet
+\\[0.5cm]
 
 \end{center}
-\end{titlepage}
 
-% --------------------------------------------------------------
-%                    Table des matières 
-% --------------------------------------------------------------
 
-$if(table_of_content)$
-  \thispagestyle{empty}
-  \tableofcontents
-  \newpage
-$endif$
 
 % --------------------------------------------------------------
 %                         Corps
 % --------------------------------------------------------------
 
-$body$
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
+illo inventore veritatis et quasi architecto beatae vitae dicta sunt
+explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
+odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
+voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum
+quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam
+eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
+voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam
+corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
+Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
+quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
+voluptas nulla pariatur?''
+
+\hypertarget{td-1-compressive-sensing}{%
+\section{TD 1 : Compressive sensing}\label{td-1-compressive-sensing}}
+
+\hypertarget{a-theorem}{%
+\subsection{A theorem}\label{a-theorem}}
+
+We have : \[x = e^{- i 5\pi \nu}\]
+
+\hypertarget{a-lemma}{%
+\subsection{A lemma}\label{a-lemma}}
+
+lemma
+
+\hypertarget{td-2-super-resolution}{%
+\section{TD 2 : Super-resolution}\label{td-2-super-resolution}}
+
+This is content
+
+\passthrough{\lstinline!small\_text test é!}
+
+Some content
+
+\begin{lstlisting}[language=Python]
+#This is python code
+import random
+print(random.random())
+print(4)
+print("x")
+
+for i in range(5):
+    i = (i+2) %3
+\end{lstlisting}
+
+\begin{figure}
+\centering
+\includegraphics{image.png}
+\caption{alt text}
+\end{figure}
+
+This is text
+
+\hypertarget{conclusion}{%
+\subsection{Conclusion}\label{conclusion}}
+
+At vero eos et accusamus et iusto odio dignissimos ducimus qui
+blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+et quas molestias excepturi sint occaecati cupiditate non provident,
+similique sunt in culpa qui officia deserunt mollitia animi, id est
+laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita
+distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
+cumque nihil impedit quo minus id quod maxime placeat facere possimus,
+omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem
+quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet
+ut et voluptates repudiandae sint et molestiae non recusandae. Itaque
+earum rerum hic tenetur a sapiente delectus, ut aut reiciendis
+voluptatibus maiores alias consequatur aut perferendis doloribus
+asperiores repellat.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+mollit anim id est laborum.
 
 
 % --------------------------------------------------------------

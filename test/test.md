@@ -1,7 +1,7 @@
 ---
 class: Parcimonie, structure et acquisiton comprimée
 author: Hector Blondel
-author2 : Aurélian Pinet
+author2: Aurélian Pinet
 title: TD compressive sensing
 document_type: Rapport de TD
 table_of_content: true
@@ -11,7 +11,7 @@ table_of_content: true
 
 ## A theorem
 
-We have : 
+We have :
 $$x = e^{- i 5\pi \nu}$$
 
 ## A lemma
@@ -37,8 +37,10 @@ for i in range(5):
     i = (i+2) %3
 ```
 
-
-![alt text](image.png)
-
+![a legend](image.png)
 
 This is text
+
+## Last section
+
+This is the last section

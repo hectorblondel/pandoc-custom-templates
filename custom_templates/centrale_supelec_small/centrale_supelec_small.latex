@@ -48,7 +48,6 @@ $endif$
 \newcommand{\reff}[1]{\textbf{\textcolor{CentraleRed}{\textsc{\ref{#1}}}}}  % Pour réaliser des citations potables
 
 % -------------  Mise en page 2 ------------- 
-\usepackage{graphicx}	% pour importer des images
 \usepackage{booktabs}	% pour introduire des tableaux
 \usepackage[toc,page]{appendix}
 %\usepackage[Bjornstrup]{fncychap} % si on fait un report ou book
@@ -67,13 +66,17 @@ $endif$
 \usepackage[pages=some]{background}	% pour mettre un fond, pages=some permet de choisir els pages concernées
 \usepackage{epsfig}	% eps to pdf converter
 \usepackage{float}	% pour avoir des tableaux qui restent dans leurs sections
-\usepackage{graphicx}	% mporter image
+%\usepackage{graphicx}	% importer image
 \usepackage{hyperref}	% importer hypertexte
 \usepackage{array}		% importer tableau
 \usepackage{colortbl}		% couleurs dans le tableau
 \usepackage{array} % Pour des tableaux bien formaté
 \usepackage{multirow} % Fusion des lignes dans les tableaux
 \usepackage[footnote]{acronym} % Des acronymes accessibles et définissables
+
+% Redéfinition de \includegraphics pour fixer une taille max
+\let\oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{\oldincludegraphics[width=0.5\textwidth,#1]{#2}}
 
 % ------------- Des sections et des sous-titres ------------- 
 \usepackage{titlesec}
@@ -499,6 +502,7 @@ $endif$
 $if(svg)$
 \usepackage{svg}
 $endif$
+
 $--
 $-- strikeout/underline
 $--
