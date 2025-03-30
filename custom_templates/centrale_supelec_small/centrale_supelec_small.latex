@@ -76,7 +76,10 @@ $endif$
 
 % Redéfinition de \includegraphics pour fixer une taille max
 \let\oldincludegraphics\includegraphics
-\renewcommand{\includegraphics}[2][]{\oldincludegraphics[width=0.5\textwidth,#1]{#2}}
+\let\oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{%
+{\centering\oldincludegraphics[width=0.6\textwidth, #1]{#2}\par}%
+}
 
 % ------------- Des sections et des sous-titres ------------- 
 \usepackage{titlesec}

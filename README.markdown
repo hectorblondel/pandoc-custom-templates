@@ -35,11 +35,11 @@ Run :
 
 # Parameters
 
-| Template                | Parameters                                                     | Preview                                                   |
-| ----------------------- | -------------------------------------------------------------- | --------------------------------------------------------- |
-| centrale_supelec_report | class, author, author2, title document_type , table_of_content | ![](custom_templates/centrale_supelec_report/example.pdf) |
-| centrale_supelec_small  | author, author2, title                                         | ![](custom_templates/centrale_supelec_small/example.pdf)  |
-| cover_letter            | email, phone, name, situation, adress, zip_code, city, country |                                                           |
+| Template                | Parameters                                                                                     | Preview                                                   |
+| ----------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| centrale_supelec_report | class, author, author2, title document_type , table_of_content                                 | ![](custom_templates/centrale_supelec_report/example.pdf) |
+| centrale_supelec_small  | author, author2, title                                                                         | ![](custom_templates/centrale_supelec_small/example.pdf)  |
+| letter                  | name, address, zip_code, city, region, country, phone, email, role, language, opening, closing |
 
 Example of parameters :
 
@@ -61,6 +61,7 @@ table_of_content: true
 - [ ] Bug for figure in page 1 in
 - [ ] Bug when an image is too big
 - [ ] There should be a small gap between images iand titles
+- [ ] For letter, add possibility to change the language
 
 ---
 
